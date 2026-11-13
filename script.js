@@ -11,6 +11,7 @@ function hl(seletor, classe, duracao = 2500, atraso = 0) {
     });
 }
 
+
 function selecionarPorId() {
     const elemento = document.getElementById("titulo-filme");
     console.log(elemento);
@@ -20,47 +21,211 @@ function selecionarPorId() {
 
     hl('#titulo-filme', 'elemento-selecionado');
     hl('#filme-principal', 'elemento-selecionado');
-};
 
-function selecionarPorClasse() {
-    const elemento = document.getElementsByClassName("genero-acao");
-    console.log(elemento);
-    console.log(elemento.tagName);
-    console.log(elemento.textContent);
-    console.log(elemento.id);
+}
 
-    
-    hl('.genero-acao', 'highlight-acao',  2500);
+function selecionarPorClasse() { 
+
+
+const elementos = document.getElementsByClassName("genero-acao");
+
+console.log("Quantidade:", elementos.length);
+
+for (let i = 0; i < elementos.length; i++) {
+    console.log(i, elementos[i].textContent.trim());
+}
+
+    hl('.genero-acao',  'highlight-acao',  2500);
+    hl('.genero-drama', 'highlight-acao', 2500);
 }
 
 function selecionarPorQuery() {
-    const elemento = document.querySelector(".filme-mini");
-    console.log(elemento);
-    console.log(elemento.tagName);
-    console.log(elemento.textContent);
-    console.log(elemento.id);
 
-    
-    hl('.filme-mini', 'elemento-selecionado');
+    const elemento = document.querySelector(".filme-mini");
+
+    console.log(elemento);
+
+     hl(elemento, 'elemento-selecionado');
 }
 
 function selecionarTodos() {
-    const elemento = document.querySelector(".filme-mini" , ".filme-card");
-    console.log(elemento);
-    console.log(elemento.tagName);
-    console.log(elemento.textContent);
-    console.log(elemento.id);
 
-    
-    hl('.filme-mini', 'elemento-selecionado');
-    hl('.filme-card', 'elemento-selecionado');
+    const elementos = document.querySelectorAll(".filme-mini");
+
+    console.log("Quantidade:", elementos.length);
+
+    elementos.forEach((el, indice) => {
+        console.log(indice, el.textContent.trim());
+    });
+
+    elementos.forEach((el, i) => hl(el, 'elemento-selecionado', 2500, i * 300));
+}
+
+function mudarTexto() {
+
+    const titulo = document.getElementById("titulo-destaque");
+
+    titulo.textContent = "Lucas R de Lacerda";
+
+    console.log("Novo texto:", titulo.textContent);
+
+    titulo.classList.add("texto-animado");
+
+      setTimeout(() => titulo.classList.remove('texto-animado'), 1500);
+    hl('#titulo-destaque', 'elemento-selecionado', 2000);
+}
+
+
+function adicionarBadge() {
+
+    const badge = document.createElement("span");
+
+    badge.className = "badge";
+
+    badge.textContent = "⭐ Em Alta";
+
+    const container = document.getElementById("badge-container");
+
+    container.innerHTML = "";
+
+    container.appendChild(badge);
+
+    console.log("Badge criado:", badge);
+
+     hl('#badge-container', 'elemento-selecionado', 2000);
 }
 
 
 
-function mudarTexto(){
-    const input = document.getElementById("input-busca");
+function mudarPoster() {
+
+    const poster = document.getElementById("poster-destaque");
+
     const titulo = document.getElementById("titulo-destaque");
 
-    titulo.textContent = input;
+    const opcoes = [
+
+        {
+            url: 'https://image.tmdb.org/t/p/w500/uKvVjHNqB5VmOrdxqAt2F7J78ED.jpg',
+            nome: 'The Last of Us'
+        },
+
+        {
+            url: 'https://image.tmdb.org/t/p/w500/qZtAf4Z1lazGQoYVXiHOrvLr5lI.jpg',
+            nome: 'Wednesday'
+        },
+
+        {
+            url: 'https://image.tmdb.org/t/p/w500/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg',
+            nome: 'Breaking Bad'
+        },
+
+        {
+            url: 'https://image.tmdb.org/t/p/w500/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg',
+            nome: 'Round 6'
+        },
+
+        {
+            url: 'https://image.tmdb.org/t/p/w500/twfKp60THrcOIep9sjHODOOfO8d.jpg',
+            nome: 'Stranger Things'
+        },
+    ];
+
+    const sorteado = opcoes[Math.floor(Math.random() * opcoes.length)];
+
+    poster.src = sorteado.url;
+
+    poster.alt = sorteado.nome;
+
+    titulo.textContent = sorteado.nome;
+
+    console.log("Poster trocado para:", sorteado.nome);
+
+    poster.style.opacity = "0";
+
+    poster.style.transition = "opacity 0.3s";
+
+    setTimeout(() => {
+        
+        poster.style.opacity = "1";
+
+    }, 300);
+
+    poster.classList.add("poster-fade-in");
+
+    setTimeout(() => {
+        
+        poster.classList.remove("poster-fade-in"), 
+        600
+
+    }, 300);
+
+} 
+
+
+function adicionarDestaque() {
+
+    const card = document.getElementById("filme-destaque");
+
+    card.classList.add("destaque");
+
+    console.log("Classes atuais:", card.className);
+
+    setTimeout(() => {
+        
+        card.classList.remove("destaque");
+
+        console.log("Classe removida!");
+    }, 3000);
+}
+
+
+function lerInput() {
+
+    const input = document.getElementById("input-busca");
+
+    console.log(input);
+
+    const texto = input.value.trim();
+
+    if (texto === "") {
+
+        alert("⚠️ Digite algo no campo primeiro!");
+        return;
+    }
+
+      const titulo = document.getElementById('titulo-destaque');
+
+      titulo.textContent = texto;
+
+      console.log("Valor lido", texto);
+
+      console.log("Caracteres:", texto.length);
+
+      titulo.classList.add("texto-animado");
+
+      setTimeout(() => titulo.classList.remove("texto-animado"), 1500);
+
+      
+    hl(
+        '#input-busca',          
+        'elemento-selecionado', 
+        1500                    
+    );
+}
+
+
+function resetarDemo2() {
+
+    document.getElementById("titulo-destaque").textContent = "The Witcher";
+
+    document.getElementById("sinopse-destaque").textContent = 'Geralt de Rívia, um caçador de monstros solitário, luta para encontrar seu lugar em um mundo onde as pessoas são mais perversas que bestas.';
+
+    document.getElementById("poster-destaque").src = 'https://image.tmdb.org/t/p/w500/7vjaCdMw15FEbXyLQTVa04URsPm.jpg';
+
+    document.getElementById("poster-destaque").alt = 'The Witcher';
+
+    document.getElementById("poster-destaque").style.opacity = "1";
+
+    document.getElementById('badge-container')
 }
